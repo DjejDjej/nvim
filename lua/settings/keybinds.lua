@@ -13,7 +13,7 @@ vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { noremap = true, silent
 
 
 -- Key mapping to switch focus between nvim-tree and the text window
-vim.keymap.set('n', '<leader>o',function()
+vim.keymap.set('n', '<leader>o', function()
   local api = require('nvim-tree.api')
   local view = require('nvim-tree.view')
 
@@ -29,13 +29,30 @@ vim.keymap.set('n', '<leader>o',function()
     -- If nvim-tree is not open, open it
     vim.cmd('NvimTreeToggle')
   end
-end, { noremap = true, silent = true })
+end, { noremap = true, silent = true, desc = "Focus tree" })
 
 -- Telescope
 vim.api.nvim_set_keymap('n', '<leader>ff', '<cmd>Telescope find_files<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>fg', '<cmd>Telescope live_grep<CR>', { noremap = true, silent = true })
- vim.api.nvim_set_keymap('n', '<Leader>t', '<Cmd>lua toggle_term_and_buffer()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>t', '<Cmd>Toggle term<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('t', '<Leader>t', [[<C-\><C-n><Cmd>wincmd p<CR>]], { noremap = true, silent = true })
 -- Keybinding for killing terminal using Ctrl+D
 vim.api.nvim_set_keymap('t', '<C-d>', [[<C-\><C-n><Cmd>bd!<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>sf', ':set filetype=sh<CR>', { noremap = true, silent = true })
+vim.api.nvim_command('command! Q q!')
+
+-- Make :Q behave like :q!
+vim.api.nvim_command('command! -nargs=0 Q q!')
+
+-- Make :WQ behave like :wq
+vim.api.nvim_command('command! -nargs=0 WQ wq')
+
+
+
+-- Disable arrow keys
+vim.api.nvim_set_keymap('n', '<Up>', '<Nop>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Down>', '<Nop>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Left>', '<Nop>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Right>', '<Nop>', { noremap = true, silent = true })
+
+vim.opt.mouse = ''

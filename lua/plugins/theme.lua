@@ -3,8 +3,8 @@
 return {
   -- AstroNvim's astrotheme
   {
-    "AstroNvim/astrotheme",
-    priority = 1000, -- Load it first to ensure it's applied before other plugins
+    "AstroNvim/astrotheme", 
+    priority = 1, -- Load it first to ensure it's applied before other plugins
     config = function()
       -- Configure and apply astrotheme
       require("astrotheme").setup({

@@ -544,7 +544,8 @@ local header = {
 
     },
   },
-}return {
+}
+return {
   { "nvimdev/dashboard-nvim", enabled = false },
   { "echasnovski/mini.starter", enabled = false },
   {
@@ -563,10 +564,11 @@ local header = {
 
       -- Use fallback Neovim commands if LazyVim is not available
       dashboard.section.buttons.val = {
-        dashboard.button("f", "󰍉" .. " Find file", ":Telescope find_files<CR>"),
+        dashboard.button("f", "󰍉 " .. " Find file", ":Telescope find_files<CR>"),
         dashboard.button("w", " " .. " Work", ":Oil " .. os.getenv('HOME') .. "/work<CR>"), -- Open ~/work using nvim-oil
+        dashboard.button("c", " " .. " Config", ":Oil " .. os.getenv('HOME') .. "/.config/nvim<CR>"), -- Open ~/work using nvim-oil
         dashboard.button("g", " " .. " Find text", ":Telescope live_grep<CR>"),
-        dashboard.button("q", "" .. " Quit", "<cmd> qa <CR>"), -- We'll make this green later
+        dashboard.button("q", " " .. " Quit", "<cmd> qa <CR>"), -- We'll make this green later
       }
 
       -- Footer Section with plugin load stats
@@ -582,7 +584,7 @@ local header = {
       dashboard.section.footer.opts.hl = "AlphaFooterBlue"
 
       -- Apply green highlight to the quit button
-      dashboard.section.buttons.val[4].opts.hl = "AlphaButtonGreen"  -- index 4 is for the quit button
+      dashboard.section.buttons.val[5].opts.hl = "AlphaButtonGreen"  -- index 4 is for the quit button
 
       -- Adjust layout if necessary (keep this line from your new setup)
       dashboard.config.layout[2] = header
