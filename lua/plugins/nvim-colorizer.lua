@@ -11,6 +11,7 @@ return {
         'lua',
         'vim',
         'markdown',
+        'rosi',
         -- Add any filetypes where you want colorizer to work
       }, {
         -- Enable true color support for better accuracy
