@@ -14,7 +14,7 @@ vim.opt.cmdheight = 0
 vim.opt.undofile = true
 
 -- Set the directory for undo files (optional)
-vim.opt.undodir = os.getenv("HOME") .. "/.config/nvim/undodir"  -- Change the path if necessary
+vim.opt.undodir = os.getenv("HOME") .. "/.config/.undodir"  -- Change the path if necessary
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = vim.api.nvim_create_augroup("YankHighlight", { clear = true }),
