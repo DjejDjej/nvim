@@ -34,10 +34,7 @@ end, { noremap = true, silent = true, desc = "Focus tree" })
 -- Telescope
 vim.api.nvim_set_keymap('n', '<leader>ff', '<cmd>Telescope find_files<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>fg', '<cmd>Telescope live_grep<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Leader>t', '<Cmd>Toggle term<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('t', '<Leader>t', [[<C-\><C-n><Cmd>wincmd p<CR>]], { noremap = true, silent = true })
 -- Keybinding for killing terminal using Ctrl+D
-vim.api.nvim_set_keymap('t', '<C-d>', [[<C-\><C-n><Cmd>bd!<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>sf', ':set filetype=sh<CR>', { noremap = true, silent = true })
 vim.api.nvim_command('command! Q q!')
 

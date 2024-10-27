@@ -8,7 +8,6 @@ return {
   require("plugins.alpha-nvim"),      -- Load your theme configuration
   require("plugins.telescope"),      -- Load your theme configuration
   require("plugins.whichkey"),      -- Load your theme configuration
-  require("plugins.toggleterm"),      -- Load your theme configuration
   require("plugins.nvim-colorizer"),      -- Load your theme configuration
   require("plugins.presence"),      -- Load your theme configuration
   require("plugins.flash"),      -- Load your theme configuration
