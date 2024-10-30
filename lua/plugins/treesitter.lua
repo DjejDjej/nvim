@@ -2,42 +2,63 @@ return {
   -- Treesitter setup
   {
     "nvim-treesitter/nvim-treesitter",
-    event = { "BufReadPost", "BufNewFile" }, -- Lazy load Treesitter when a file is opened
-    build = ":TSUpdate", -- Automatically update parsers
+    event = { "BufReadPost", "BufNewFile" },
+    build = ":TSUpdate",
     config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "yaml", "lua", "bash", "python", "javascript" }, -- Add your languages here
+        ensure_installed = { "yaml", "lua", "bash", "python", "javascript" },
         sync_install = false,
         auto_install = true,
 
         highlight = {
-          enable = true, -- Enable Treesitter-based syntax highlighting
-          additional_vim_regex_highlighting = false, -- Disable regex-based highlighting for better performance
+          enable = true,
+          additional_vim_regex_highlighting = false,
         },
 
         indent = {
-          enable = false, -- Enable Treesitter-based indentation
+          enable = false,
         },
       })
     end,
   },
 
-
-  -- Indent-Blankline (now ibl) setup for version 3
+  -- Indent-Blankline (ibl) setup
   {
     "lukas-reineke/indent-blankline.nvim",
-    main = "ibl", -- Ensure that 'ibl' is the main module used
-    event = { "BufReadPost", "BufNewFile" }, -- Lazy load when opening files
+    main = "ibl",
+    event = { "BufReadPost", "BufNewFile" },
     opts = {
       indent = {
         char = "│", -- Character used for indentation guides
+        highlight = { "IblIndentBlack" }, -- Use a single black highlight group for all indent guides
       },
       scope = {
-        enabled = false, -- Disable scope highlighting
+        enabled = false,
       },
       exclude = {
-        filetypes = { "help", "terminal", "dashboard" }, -- Exclude specific file types
+        filetypes = { "help", "terminal", "dashboard" },
       },
     },
-  }
-} 
+    config = function()
+      local hooks = require "ibl.hooks"
+      -- Use the HIGHLIGHT_SETUP hook to ensure the highlight group is created
+      hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+        vim.api.nvim_set_hl(0, "IblIndentBlack", { fg = "#4d4d4d" }) -- Set black color for indent guides
+      end)
+
+      require("ibl").setup({
+        indent = {
+          char = "│",
+          highlight = { "IblIndentBlack" },
+        },
+        scope = {
+          enabled = false,
+        },
+        exclude = {
+          filetypes = { "help", "terminal", "dashboard" },
+        },
+      })
+    end,
+  },
+}
+

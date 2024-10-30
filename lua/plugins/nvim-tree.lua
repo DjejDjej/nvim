@@ -40,7 +40,7 @@ return {
       },
     })
 
-    vim.cmd([[highlight NvimTreeRootFolder guifg=#00BFFF gui=bold]])
+    vim.cmd([[highlight NvimTreeRootFolder guifg=#00BFFF ]])
     vim.cmd([[highlight NvimTreeNormal guibg=#1a1d23]])
   end,
 }

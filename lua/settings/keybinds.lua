@@ -10,7 +10,7 @@ vim.api.nvim_set_keymap('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true
 vim.api.nvim_set_keymap('n', '<C-d>', '<C-d>zz', { noremap = true, silent = true })
 -- Key mapping to toggle the nvim-tree file explorer
 vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
-
+vim.api.nvim_set_keymap('n', '<leader>c', ':nohlsearch<CR>', { noremap = true, silent = true })
 
 -- Key mapping to switch focus between nvim-tree and the text window
 vim.keymap.set('n', '<leader>o', function()
