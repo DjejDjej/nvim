@@ -8,14 +8,20 @@ vim.api.nvim_set_keymap('n', 's', '"_s', { noremap = true })
 -- better ctrl u and d
 vim.api.nvim_set_keymap('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<C-d>', '<C-d>zz', { noremap = true, silent = true })
--- Key mapping to toggle the nvim-tree file explorer
-vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>c', ':nohlsearch<CR>', { noremap = true, silent = true })
 
+
+vim.api.nvim_set_keymap('n', 'n', 'nzz', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'N', 'Nzz', { noremap = true, silent = true })
+-- Key mapping to toggle the nvim-tree file explorer
+vim.api.nvim_set_keymap('n', '<leader>e', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>c', ':nohlsearch<CR>', { noremap = true, silent = true })
 -- Key mapping to switch focus between nvim-tree and the text window
 vim.keymap.set('n', '<leader>o', function()
   local api = require('nvim-tree.api')
   local view = require('nvim-tree.view')
+
+
+
 
   if view.is_visible() then
     if vim.fn.bufname() == "NvimTree_" .. vim.api.nvim_get_current_tabpage() then
@@ -45,11 +51,16 @@ vim.api.nvim_command('command! -nargs=0 Q q!')
 vim.api.nvim_command('command! -nargs=0 WQ wq')
 
 
+vim.api.nvim_set_keymap('n', '<Leader>t', '<Cmd>ToggleTerm<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('t', '<C-d>', [[<C-\><C-n><Cmd>bd!<CR>]], { noremap = true, silent = true })
 
 -- Disable arrow keys
-vim.api.nvim_set_keymap('n', '<Up>', '<Nop>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Down>', '<Nop>', { noremap = true, silent = true })
+--vim.api.nvim_set_keymap('n', '<Up>', '<Nop>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<Down>', '<Nop>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<Left>', '<Nop>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<Right>', '<Nop>', { noremap = true, silent = true })
+
+
+
 
 vim.opt.mouse = ''
