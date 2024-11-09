@@ -10,7 +10,9 @@ vim.opt.mouse = ''
 vim.o.showtabline = 1
 -- Enable undofile
 vim.opt.undofile = true
-
+vim.opt.backup = false
+vim.opt.signcolumn = "yes"
+vim.opt.swapfile = false
 -- Set the directory for undo files (optional)
 vim.opt.undodir = os.getenv("HOME") .. "/.config/.undodir"  -- Change the path if necessary
 

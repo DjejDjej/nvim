@@ -49,3 +49,10 @@ vim.api.nvim_set_keymap('t', '<C-d>', [[<C-\><C-n><Cmd>bd!<CR>]], { noremap = tr
 vim.api.nvim_set_keymap("n", "<leader>x", "<cmd>lua vim.diagnostic.open_float()<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>sS", ":SymbolsOutline<CR>", { noremap = true, silent = true })
 
+vim.keymap.set("n", "<leader><leader>", function()
+    vim.cmd("so")
+end)
+
+
+---
+---
