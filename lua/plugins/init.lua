@@ -1,21 +1,60 @@
 return {
-  require("plugins.theme"),      -- Load your theme configuration
-  require("plugins.oil"),        -- Load oil.nvim
-  require("plugins.lsp"),        -- Load LSP configuration
-  require("plugins.treesitter"), -- Load Treesitter
-  require("plugins.lualine"),    -- Load lualine.nvim
-  require("plugins.nvim-tree"),  -- Load nvim-tree
-  require("plugins.alpha-nvim"),      -- Load your theme configuration
-  require("plugins.telescope"),      -- Load your theme configuration
-  require("plugins.whichkey"),      -- Load your theme configuration
-  require("plugins.nvim-colorizer"),      -- Load your theme configuration
-  require("plugins.presence"),      -- Load your theme configuration
-  require("plugins.surround"),      -- Load your theme configuration
-  require("plugins.toggleterm"),      -- Load your theme configuration
-  require("plugins.dressing"),      -- Load your theme configuration
-  require("plugins.comment"),      -- Load your theme configuration
-  require("plugins.ts-rainbow"),      -- Load your theme configuration
-  require("plugins.symbols-outline"),      -- Load your theme configuration
-  require("plugins.lsp-signature"),      -- Load your theme configuration
-}
+  -- Load theme configuration
+  require("plugins.theme"),
 
+  -- Load oil.nvim for file management
+  require("plugins.oil"),
+
+  -- Load Language Server Protocol (LSP) configuration
+  require("plugins.lsp"),
+
+  -- Load Treesitter for advanced syntax highlighting and parsing
+  require("plugins.treesitter"),
+
+  -- Load lualine.nvim for customizable statusline
+  require("plugins.lualine"),
+
+  -- Load nvim-tree for file explorer
+  require("plugins.nvim-tree"),
+
+  -- Load alpha-nvim for start screen customization
+  require("plugins.alpha-nvim"),
+
+  -- Load telescope for fuzzy finding and searching
+  require("plugins.telescope"),
+
+  -- Load which-key for displaying available keybindings
+  require("plugins.whichkey"),
+
+  -- Load nvim-colorizer for color highlighting
+  require("plugins.nvim-colorizer"),
+
+  -- Load presence.nvim for Discord Rich Presence integration
+  require("plugins.presence"),
+
+  -- Load surround.nvim for easy text surrounding manipulations
+  require("plugins.surround"),
+
+  -- Load toggleterm.nvim for in-editor terminal management
+  require("plugins.toggleterm"),
+
+  -- Load dressing.nvim for improved input and select UI
+  require("plugins.dressing"),
+
+  -- Load comment.nvim for enhanced commenting functionality
+  require("plugins.comment"),
+
+  -- Load ts-rainbow for rainbow-colored brackets in Treesitter
+  require("plugins.ts-rainbow"),
+
+  -- Load symbols-outline.nvim for symbol outline sidebar
+  require("plugins.symbols-outline"),
+
+  -- Load lsp_signature.nvim for signature help in LSP
+  require("plugins.lsp-signature"),
+
+  -- Load nicer command prompt  
+  require("plugins.noice"),
+
+
+}
