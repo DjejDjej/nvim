@@ -2,12 +2,12 @@ vim.o.clipboard = "unnamedplus"
 vim.g.mapleader = " "
 vim.opt.fillchars = 'eob: '
 vim.opt.fillchars.eob = ' '
-
+vim.opt.autochdir = true
 vim.opt.number = true          -- Shows absolute line numbers
 vim.opt.relativenumber = true  -- Shows relative line numbers
 vim.opt.cmdheight = 0
-
-
+vim.opt.mouse = ''
+vim.o.showtabline = 1
 -- Enable undofile
 vim.opt.undofile = true
 

@@ -1,3 +1,4 @@
+
 return {
   "nvim-tree/nvim-tree.lua",
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -30,10 +31,14 @@ return {
         local function opts(desc)
           return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
         end
-	vim.keymap.set('n', 'f', api.tree.change_root_to_node, opts('Focus Folder')) -- Bind 'f' key to set folder as root
 
+        -- Existing key mappings
+        vim.keymap.set('n', 'f', api.tree.change_root_to_node, opts('Focus Folder')) -- Bind 'f' key to set folder as root
         vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open File'))  -- Bind Enter key to open file
         vim.keymap.set('n', 'n', api.fs.create, opts('Create New File'))      -- Bind 'n' key to create new file
+
+        -- New Shift+Enter mapping to open file in a new tab
+        vim.keymap.set('n', '<S-CR>', api.node.open.tab, opts('Open in New Tab'))
       end,
       filters = {
         dotfiles = false,
@@ -44,4 +49,3 @@ return {
     vim.cmd([[highlight NvimTreeNormal guibg=#1a1d23]])
   end,
 }
-

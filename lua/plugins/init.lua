@@ -13,8 +13,9 @@ return {
   require("plugins.surround"),      -- Load your theme configuration
   require("plugins.toggleterm"),      -- Load your theme configuration
   require("plugins.dressing"),      -- Load your theme configuration
-  require("plugins.kubeval"),      -- Load your theme configuration
-  require("plugins.notify"),      -- Load your theme configuration
-  require("plugins.kube-score"),      -- Load your theme configuration
+  require("plugins.comment"),      -- Load your theme configuration
+  require("plugins.ts-rainbow"),      -- Load your theme configuration
+  require("plugins.symbols-outline"),      -- Load your theme configuration
+  require("plugins.lsp-signature"),      -- Load your theme configuration
 }
 

@@ -4,11 +4,16 @@ return {
   config = function()
     require("which-key").setup({
       icons = {
-        breadcrumb = "»", -- symbol used in the command path
-        separator = "→",  -- symbol used between a key and its label
-        group = ""        -- set to an empty string to remove the group icon (blue square)
+        breadcrumb = "",      -- Remove breadcrumb symbol
+        separator = "",       -- Remove separator symbol
+        group = "",           -- Remove group icon (blue square)
+        mappings = false,     -- Attempt to disable icons for mappings (undocumented but may work)
       },
-      -- Add any other configurations if needed
+      plugins = {
+        marks = false,        -- Disable marks icons
+        registers = false,    -- Disable registers icons
+      },
+      show_help = false,      -- Disable help message to avoid extra icons
     })
   end,
 }

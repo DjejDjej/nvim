@@ -12,3 +12,19 @@ vim.api.nvim_create_user_command(
     end,
     { nargs = 1, complete = 'custom,v:lua.custom_complete' }
 )
+
+vim.keymap.set('n', '<leader>o', function()
+  local api = require('nvim-tree.api')
+  local view = require('nvim-tree.view')
+  if view.is_visible() then
+    if vim.fn.bufname() == "NvimTree_" .. vim.api.nvim_get_current_tabpage() then
+      vim.cmd('wincmd p')
+    else
+      api.tree.focus()
+    end
+  else
+    vim.cmd('NvimTreeToggle')
+  end
+end, { noremap = true, silent = true, desc = "Focus NvimTree" })
+
+

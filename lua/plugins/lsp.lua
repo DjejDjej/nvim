@@ -110,7 +110,8 @@ return {
           { name = 'nvim_lsp' },
           { name = 'buffer' },
           { name = 'luasnip' },
-          { name = 'path' },
+          { name = 'path' , 
+	  trailing_slash = true},
         }),
         completion = {
           autocomplete = false,

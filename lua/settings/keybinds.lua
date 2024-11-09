@@ -1,66 +1,51 @@
--- Remap normal and visual mode delete commands to use black hole register
-vim.api.nvim_set_keymap('n', 'd', '"_d', { noremap = true })
-vim.api.nvim_set_keymap('v', 'd', '"_d', { noremap = true })
-vim.api.nvim_set_keymap('n', 'c', '"_c', { noremap = true })
-vim.api.nvim_set_keymap('v', 'c', '"_c', { noremap = true })
-vim.api.nvim_set_keymap('n', 'x', '"_x', { noremap = true })
-vim.api.nvim_set_keymap('n', 's', '"_s', { noremap = true })
--- better ctrl u and d
-vim.api.nvim_set_keymap('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<C-d>', '<C-d>zz', { noremap = true, silent = true })
+-- Remap normal and visual mode delete and change commands to use black hole register
+vim.api.nvim_set_keymap('n', 'd', '"_d', { noremap = true, desc = "Delete without yank (normal)" })
+vim.api.nvim_set_keymap('v', 'd', '"_d', { noremap = true, desc = "Delete without yank (visual)" })
+vim.api.nvim_set_keymap('n', 'c', '"_c', { noremap = true, desc = "Change without yank (normal)" })
+vim.api.nvim_set_keymap('v', 'c', '"_c', { noremap = true, desc = "Change without yank (visual)" })
+vim.api.nvim_set_keymap('n', 'x', '"_x', { noremap = true, desc = "Cut without yank (normal)" })
+vim.api.nvim_set_keymap('n', 's', '"_s', { noremap = true, desc = "Substitute without yank (normal)" })
+
+-- Better scroll with <C-u> and <C-d> centered
+vim.api.nvim_set_keymap('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true, desc = "Scroll up and center" })
+vim.api.nvim_set_keymap('n', '<C-d>', '<C-d>zz', { noremap = true, silent = true, desc = "Scroll down and center" })
+
+-- Disable arrow keys in normal mode
+vim.api.nvim_set_keymap('n', '<Up>', '<Nop>', { noremap = true, silent = true, desc = "Disable Up arrow" })
+vim.api.nvim_set_keymap('n', '<Down>', '<Nop>', { noremap = true, silent = true, desc = "Disable Down arrow" })
+vim.api.nvim_set_keymap('n', '<Left>', '<Nop>', { noremap = true, silent = true, desc = "Disable Left arrow" })
+vim.api.nvim_set_keymap('n', '<Right>', '<Nop>', { noremap = true, silent = true, desc = "Disable Right arrow" })
 
 
-vim.api.nvim_set_keymap('n', 'n', 'nzz', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'N', 'Nzz', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'q:', '<Nop>', { noremap = true, silent = true, desc = "Disable Right arrow" })
+
+vim.api.nvim_set_keymap('n', 'Q:', '<Nop>', { noremap = true, silent = true, desc = "Disable Right arrow" })
+
+-- Center search results with 'n' and 'N'
+vim.api.nvim_set_keymap('n', 'n', 'nzz', { noremap = true, silent = true, desc = "Next search result centered" })
+vim.api.nvim_set_keymap('n', 'N', 'Nzz', { noremap = true, silent = true, desc = "Previous search result centered" })
+
 -- Key mapping to toggle the nvim-tree file explorer
-vim.api.nvim_set_keymap('n', '<leader>e', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>c', ':nohlsearch<CR>', { noremap = true, silent = true })
--- Key mapping to switch focus between nvim-tree and the text window
-vim.keymap.set('n', '<leader>o', function()
-  local api = require('nvim-tree.api')
-  local view = require('nvim-tree.view')
+vim.api.nvim_set_keymap('n', '<leader>e', ':NvimTreeToggle<CR>', { noremap = true, silent = true, desc = "Toggle NvimTree" })
+vim.api.nvim_set_keymap('n', '<leader>c', ':nohlsearch<CR>', { noremap = true, silent = true, desc = "Clear search highlights" })
 
+vim.api.nvim_set_keymap('n', '<Leader>tn', ':tabnew | NvimTreeOpen<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>tc', ':tabclose<CR>', { noremap = true, silent = true })
 
+-- Telescope mappings
+vim.api.nvim_set_keymap('n', '<leader>ff', '<cmd>Telescope find_files<CR>', { noremap = true, silent = true, desc = "Find files (Telescope)" })
+vim.api.nvim_set_keymap('n', '<leader>fg', '<cmd>Telescope live_grep<CR>', { noremap = true, silent = true, desc = "Live grep (Telescope)" })
 
+-- Keybinding for setting filetype to shell script
+vim.api.nvim_set_keymap('n', '<leader>sf', ':set filetype=sh<CR>', { noremap = true, silent = true, desc = "Set filetype to sh" })
 
-  if view.is_visible() then
-    if vim.fn.bufname() == "NvimTree_" .. vim.api.nvim_get_current_tabpage() then
-      -- If nvim-tree is focused, switch to the previous window
-      vim.cmd('wincmd p')
-    else
-      -- If another window is focused, switch focus to nvim-tree
-      api.tree.focus()
-    end
-  else
-    -- If nvim-tree is not open, open it
-    vim.cmd('NvimTreeToggle')
-  end
-end, { noremap = true, silent = true, desc = "Focus tree" })
+-- Make :Q behave like :q! and :WQ behave like :wq
+vim.api.nvim_command('command! Q qa!')
+vim.api.nvim_command('command! -nargs=0 WQ wqa!')
+vim.api.nvim_command('command! -nargs=0 Wq wqa!')
+vim.api.nvim_set_keymap('n', '<Leader>t', '<Cmd>ToggleTerm<CR>', { noremap = true, silent = true, desc = "Toggle terminal" })
+vim.api.nvim_set_keymap('t', '<C-d>', [[<C-\><C-n><Cmd>bd!<CR>]], { noremap = true, silent = true, desc = "Close terminal with Ctrl+D" })
 
--- Telescope
-vim.api.nvim_set_keymap('n', '<leader>ff', '<cmd>Telescope find_files<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>fg', '<cmd>Telescope live_grep<CR>', { noremap = true, silent = true })
--- Keybinding for killing terminal using Ctrl+D
-vim.api.nvim_set_keymap('n', '<leader>sf', ':set filetype=sh<CR>', { noremap = true, silent = true })
-vim.api.nvim_command('command! Q q!')
+vim.api.nvim_set_keymap("n", "<leader>x", "<cmd>lua vim.diagnostic.open_float()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>sS", ":SymbolsOutline<CR>", { noremap = true, silent = true })
 
--- Make :Q behave like :q!
-vim.api.nvim_command('command! -nargs=0 Q q!')
-
--- Make :WQ behave like :wq
-vim.api.nvim_command('command! -nargs=0 WQ wq')
-
-
-vim.api.nvim_set_keymap('n', '<Leader>t', '<Cmd>ToggleTerm<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('t', '<C-d>', [[<C-\><C-n><Cmd>bd!<CR>]], { noremap = true, silent = true })
-
--- Disable arrow keys
---vim.api.nvim_set_keymap('n', '<Up>', '<Nop>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<Down>', '<Nop>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Left>', '<Nop>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Right>', '<Nop>', { noremap = true, silent = true })
-
-
-
-
-vim.opt.mouse = ''
