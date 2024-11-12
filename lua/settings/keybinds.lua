@@ -57,4 +57,3 @@ vim.api.nvim_set_keymap("n","<leader>l","<cmd>lua vim.lsp.buf.format({ async = t
 
 vim.keymap.set("n", "<leader><leader>", function()vim.cmd("so") end)
 
-vim.api.nvim_set_keymap("n", "<leader>r", ":RunCode<CR>", { noremap = true, silent = true })

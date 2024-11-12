@@ -56,8 +56,6 @@ return {
 
   -- Load markdown support
   require("plugins.markdown"),
-  -- Load builder
-  require("plugins.code-runner"),
 
  -- Load harpoon
   require("plugins.harpoon"),
