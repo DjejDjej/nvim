@@ -1,5 +1,5 @@
 return {
-  {
+{
     "akinsho/toggleterm.nvim",
     version = "*",  -- Use the latest version or specify a tag
     config = function()

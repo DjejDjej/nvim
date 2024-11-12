@@ -1,80 +1,42 @@
+
 return {
   -- LSP Config
   {
     "neovim/nvim-lspconfig",
     config = function()
-      local lspconfig = require('lspconfig')
-      local format_on_demand = function()
-        vim.lsp.buf.format({ async = true })
-      end
+      local lspconfig = require("lspconfig")
 
-      -- Set up a keybinding for <leader>l to format the document
-      vim.api.nvim_set_keymap("n", "<leader>l", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", { noremap = true, silent = true })
-
-      -- Disable virtual text for diagnostics
+      -- Configure global diagnostics
       vim.diagnostic.config({
         virtual_text = false,
       })
 
-      -- Enable LSP for Python (Pyright) with diagnostics disabled
-      lspconfig.pyright.setup({
-        settings = {
-          python = {
-            analysis = {
-              typeCheckingMode = "off",  -- Disable all type checking
-              diagnosticMode = "workspace",  -- Options: "workspace", "openFilesOnly"
-              reportMissingImports = false,
-              reportUnusedImports = false,
-              reportUnusedVariables = false,
-              reportImplicitAny = false,
-              reportOptionalSubscript = false,
-              reportGeneralTypeIssues = false,
-            },
-          },
-        },
-        on_attach = function(client, bufnr)
-          -- Attach the format keybinding on <leader>l
-          vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>l", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", { noremap = true, silent = true })
-        end,
-      })
+      -- Global on_attach function to set up keybindings
+      local on_attach = function(_, bufnr)
+        -- Global keybinding for formatting
+        vim.api.nvim_buf_set_keymap(
+          bufnr,
+          "n",
+          "<leader>l",
+          "<cmd>lua vim.lsp.buf.format({ async = true })<CR>",
+          { noremap = true, silent = true }
+        )
+      end
 
-      -- Setup YAML Language Server
-      lspconfig.yamlls.setup {
-        settings = {
-          yaml = {
-            schemas = {
-              kubernetes = "k8s-*.yaml",
-              ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*",
-              ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
-              ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/**/*.{yml,yaml}",
-              ["http://json.schemastore.org/prettierrc"] = ".prettierrc.{yml,yaml}",
-              ["http://json.schemastore.org/kustomization"] = "kustomization.{yml,yaml}",
-              ["http://json.schemastore.org/chart"] = "Chart.{yml,yaml}",
-              ["http://json.schemastore.org/circleciconfig"] = ".circleci/**/*.{yml,yaml}",
-            },
-          },
-        },
-        on_attach = function(client, bufnr)
-          -- Attach the format keybinding on <leader>l
-          vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>l", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", { noremap = true, silent = true })
-        end,
+      -- List of LSP configurations to load
+      local servers = {
+        "gopls",
+        "clangd",
       }
 
-      -- Setup Go Language Server (gopls)
-      lspconfig.gopls.setup({
-        settings = {
-          gopls = {
-            analyses = {
-              unusedparams = true, -- Warn on unused parameters
-            },
-            staticcheck = true,   -- Enable additional static checks
-          },
-        },
-        on_attach = function(client, bufnr)
-          -- Attach the format keybinding on <leader>l
-          vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>l", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", { noremap = true, silent = true })
-        end,
-      })
+      for _, server in ipairs(servers) do
+        local ok, lsp = pcall(require, "plugins.lsp." .. server)
+        if ok then
+          lsp.setup(lspconfig, on_attach)
+        else
+          vim.notify("Failed to load LSP config for " .. server, vim.log.levels.ERROR)
+        end
+      end
     end
   },
 
@@ -87,11 +49,15 @@ return {
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
       "L3MON4D3/LuaSnip",
-      "saadparwaiz1/cmp_luasnip"
+      "saadparwaiz1/cmp_luasnip",
+      "rafamadriz/friendly-snippets",  -- Add friendly-snippets here
     },
     config = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
+
+      -- Load VSCode-style snippets for all supported languages
+      require("luasnip.loaders.from_vscode").lazy_load()
 
       cmp.setup({
         snippet = {
@@ -100,7 +66,7 @@ return {
           end,
         },
         mapping = {
-          ['<Down>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }), 
+          ['<Down>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
           ['<Up>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
           ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Confirm the selection with Enter
           ['<S-Tab>'] = cmp.mapping.complete(),              -- Trigger completion manually
@@ -110,8 +76,7 @@ return {
           { name = 'nvim_lsp' },
           { name = 'buffer' },
           { name = 'luasnip' },
-          { name = 'path' , 
-	  trailing_slash = true},
+          { name = 'path', trailing_slash = true },
         }),
         completion = {
           autocomplete = false,
@@ -148,7 +113,7 @@ return {
   {
     "L3MON4D3/LuaSnip",
     config = function()
-      require("luasnip.loaders.from_vscode").lazy_load()
+      require("luasnip.loaders.from_vscode").lazy_load()  -- Load VSCode-style snippets automatically
     end,
   },
 
@@ -157,4 +122,3 @@ return {
     "hrsh7th/cmp-nvim-lsp",
   },
 }
-

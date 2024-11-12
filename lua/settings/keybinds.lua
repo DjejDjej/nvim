@@ -52,9 +52,9 @@ end
 vim.api.nvim_set_keymap("n", "<leader>ha", ":lua require('harpoon.mark').add_file()<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>hm", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", { noremap = true, silent = true })
 
+-- keybindings.lua
+vim.api.nvim_set_keymap("n","<leader>l","<cmd>lua vim.lsp.buf.format({ async = true })<CR>",{ noremap = true, silent = true })
 
-vim.keymap.set("n", "<leader><leader>", function()
-    vim.cmd("so")
-end)
+vim.keymap.set("n", "<leader><leader>", function()vim.cmd("so") end)
 
-
+vim.api.nvim_set_keymap("n", "<leader>r", ":RunCode<CR>", { noremap = true, silent = true })
