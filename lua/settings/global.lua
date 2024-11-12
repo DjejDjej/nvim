@@ -1,4 +1,5 @@
 vim.o.clipboard = "unnamedplus"
+vim.opt.title = true
 vim.g.mapleader = " "
 vim.opt.fillchars = 'eob: '
 vim.opt.fillchars.eob = ' '
@@ -16,6 +17,19 @@ vim.opt.swapfile = false
 -- Set the directory for undo files (optional)
 vim.opt.undodir = os.getenv("HOME") .. "/.config/.undodir"  -- Change the path if necessary
 
+vim.o.wrap = true
+
+vim.api.nvim_create_autocmd("BufEnter", {
+    callback = function()
+        local file_name = vim.fn.expand("%:t")  -- Get the file name (just the name, not the full path)
+        if file_name == "" then
+            file_name = "[No Name]"            -- Default title when no file is open
+        end
+        vim.opt.titlestring = "nvim - " .. file_name
+    end
+})
+
+
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = vim.api.nvim_create_augroup("YankHighlight", { clear = true }),
   pattern = "*",
@@ -24,5 +38,14 @@ vim.api.nvim_create_autocmd("TextYankPost", {
       higroup = "IncSearch", -- You can change this to any highlight group you prefer
       timeout = 300, -- Duration of the highlight in milliseconds
     })
+  end,
+})
+
+
+-- Autocommand to disable sign column in Markdown files
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.opt_local.signcolumn = "no"
   end,
 })

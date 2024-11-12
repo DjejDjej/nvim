@@ -14,8 +14,6 @@ return {
   -- Load lualine.nvim for customizable statusline
   require("plugins.lualine"),
 
-  -- Load nvim-tree for file explorer
-  require("plugins.nvim-tree"),
 
   -- Load alpha-nvim for start screen customization
   require("plugins.alpha-nvim"),
@@ -56,5 +54,10 @@ return {
   -- Load nicer command prompt  
   require("plugins.noice"),
 
+  -- Load markdown support
+  require("plugins.markdown"),
 
+
+ -- Load harpoon
+  require("plugins.harpoon"),
 }

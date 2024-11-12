@@ -66,7 +66,7 @@ return {
         },
         sections = {
           lualine_a = {"mode"},             -- Show current mode
-          lualine_b = {"filetype"},         -- Show filename
+          lualine_b = {'filetype'},             -- Show hardcoded Arch Linux logo
           lualine_c = {},             -- Show hardcoded Arch Linux logo
           lualine_x = {},         -- Show file type
           lualine_y = {},         -- Show location (line and column)

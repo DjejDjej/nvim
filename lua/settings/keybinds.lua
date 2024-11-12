@@ -25,12 +25,8 @@ vim.api.nvim_set_keymap('n', 'Q:', '<Nop>', { noremap = true, silent = true, des
 vim.api.nvim_set_keymap('n', 'n', 'nzz', { noremap = true, silent = true, desc = "Next search result centered" })
 vim.api.nvim_set_keymap('n', 'N', 'Nzz', { noremap = true, silent = true, desc = "Previous search result centered" })
 
--- Key mapping to toggle the nvim-tree file explorer
-vim.api.nvim_set_keymap('n', '<leader>e', ':NvimTreeToggle<CR>', { noremap = true, silent = true, desc = "Toggle NvimTree" })
 vim.api.nvim_set_keymap('n', '<leader>c', ':nohlsearch<CR>', { noremap = true, silent = true, desc = "Clear search highlights" })
 
-vim.api.nvim_set_keymap('n', '<Leader>tn', ':tabnew | NvimTreeOpen<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Leader>tc', ':tabclose<CR>', { noremap = true, silent = true })
 
 -- Telescope mappings
 vim.api.nvim_set_keymap('n', '<leader>ff', '<cmd>Telescope find_files<CR>', { noremap = true, silent = true, desc = "Find files (Telescope)" })
@@ -48,11 +44,17 @@ vim.api.nvim_set_keymap('t', '<C-d>', [[<C-\><C-n><Cmd>bd!<CR>]], { noremap = tr
 
 vim.api.nvim_set_keymap("n", "<leader>x", "<cmd>lua vim.diagnostic.open_float()<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>sS", ":SymbolsOutline<CR>", { noremap = true, silent = true })
+for i = 1, 9 do
+vim.api.nvim_set_keymap("n", "<C-" .. i .. ">", ":lua require('harpoon.ui').nav_file(" .. i .. ")<CR>", { noremap = true, silent = true })
+end
+
+
+vim.api.nvim_set_keymap("n", "<leader>ha", ":lua require('harpoon.mark').add_file()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>hm", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", { noremap = true, silent = true })
+
 
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
 
 
----
----
