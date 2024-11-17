@@ -5,9 +5,12 @@ return {
     config = function()
       require("presence"):setup({
         auto_update         = true,  -- Auto-update Discord status
-        neovim_image_text   = "Neovim", -- This text appears when hovering over the Neovim logo
+        neovim_image_text   = "The One True Text Editor", -- Text displayed when hovered over the Neovim image
         main_image          = "neovim", -- Set to 'neovim' to use the Neovim logo
         log_level           = nil,    -- Log level for messages (debug, info, warn, error)
+        buttons             = true,                      
+
+
 
         -- Rich presence settings for different activities
         editing_text        = "Editing %s", -- Shows when editing a file

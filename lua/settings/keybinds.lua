@@ -57,3 +57,5 @@ vim.api.nvim_set_keymap("n","<leader>l","<cmd>lua vim.lsp.buf.format({ async = t
 
 vim.keymap.set("n", "<leader><leader>", function()vim.cmd("so") end)
 
+vim.api.nvim_set_keymap("n", "<Leader>e", ":Oil<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>hg", "<cmd>Telescope harpoon marks<CR>", { noremap = true, silent = true })
