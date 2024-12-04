@@ -25,7 +25,7 @@ vim.api.nvim_set_keymap('n', 'Q:', '<Nop>', { noremap = true, silent = true, des
 vim.api.nvim_set_keymap('n', 'n', 'nzz', { noremap = true, silent = true, desc = "Next search result centered" })
 vim.api.nvim_set_keymap('n', 'N', 'Nzz', { noremap = true, silent = true, desc = "Previous search result centered" })
 
-vim.api.nvim_set_keymap('n', '<leader>c', ':nohlsearch<CR>', { noremap = true, silent = true, desc = "Clear search highlights" })
+vim.api.nvim_set_keymap('n', '<leader>C', ':nohlsearch<CR>', { noremap = true, silent = true, desc = "Clear search highlights" })
 
 
 -- Telescope mappings
@@ -59,3 +59,9 @@ vim.keymap.set("n", "<leader><leader>", function()vim.cmd("so") end)
 
 vim.api.nvim_set_keymap("n", "<Leader>e", ":Oil<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>hg", "<cmd>Telescope harpoon marks<CR>", { noremap = true, silent = true })
+
+vim.api.nvim_set_keymap("n", "<leader>cc", ":CopilotChat<CR>", { noremap = true, silent = true, desc = "Open Copilot chat" })
+vim.api.nvim_set_keymap("n", "<leader>cD", ":Copilot disable<CR>", { noremap = true, silent = true, desc = "Disable Copilot" })
+vim.api.nvim_set_keymap("n", "<leader>cE", ":Copilot enable<CR>", { noremap = true, silent = true, desc = "Enable Copilot" })
+
+vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', { expr = true, replace_keycodes = false }); vim.g.copilot_no_tab_map = true

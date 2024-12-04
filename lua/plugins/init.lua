@@ -58,5 +58,10 @@ return {
   require("plugins.markdown"),
 
  -- Load harpoon
-  require("plugins.harpoon"),
+require("plugins.harpoon"),
+-- Load copilot
+require("plugins.copilot"),
+require("plugins.copilot-chat"),
+-- Load leetcode
+require("plugins.leetcode"),
 }
