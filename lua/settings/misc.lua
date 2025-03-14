@@ -59,4 +59,3 @@ function _G.build_file()
 end
 
 -- Map Leader + B to the build_file function without displaying the command
-vim.api.nvim_set_keymap('n', '<leader>B', ':lua build_file()<CR>', { noremap = true, silent = true })

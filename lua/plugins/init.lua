@@ -43,7 +43,7 @@ return {
   require("plugins.comment"),
 
   -- Load ts-rainbow for rainbow-colored brackets in Treesitter
-  require("plugins.ts-rainbow"),
+  -- require("plugins.ts-rainbow"),
 
   -- Load symbols-outline.nvim for symbol outline sidebar
   require("plugins.symbols-outline"),
@@ -57,7 +57,10 @@ return {
   -- Load markdown support
   require("plugins.markdown"),
 
- -- Load harpoon
-require("plugins.harpoon"),
--- Load leetcode
+  -- Load harpoon
+  require("plugins.harpoon"),
+  
+  -- require("plugins.null"),
+
+
 }
