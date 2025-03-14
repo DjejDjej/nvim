@@ -27,6 +27,8 @@ return {
       local servers = {
         "gopls",
         "clangd",
+        "groovy",
+        "python",
       }
 
       for _, server in ipairs(servers) do
@@ -38,6 +40,24 @@ return {
         end
       end
     end
+  },
+
+  -- lspsaga.nvim for enhanced LSP UI (floating diagnostics, code actions, etc.)
+  {
+    "glepnir/lspsaga.nvim",
+    event = "LspAttach",
+    config = function()
+      require("lspsaga").setup({
+        -- Disable winbar (breadcrumb) at the top
+        symbol_in_winbar = {
+          enable = false,
+        },
+        diagnostic = {
+          on_insert = false,   -- Only show diagnostics in normal mode
+          show_source = true,  -- Display the diagnostic source (e.g. Groovy LSP)
+        },
+      })
+    end,
   },
 
   -- Autocompletion Plugins
@@ -106,7 +126,7 @@ return {
           { name = 'cmdline' }
         })
       })
-    end
+    end,
   },
 
   -- Snippet Engine
