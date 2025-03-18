@@ -33,8 +33,6 @@ return {
   -- Load surround.nvim for easy text surrounding manipulations
   require("plugins.surround"),
 
-  -- Load toggleterm.nvim for in-editor terminal management
-  require("plugins.toggleterm"),
 
   -- Load dressing.nvim for improved input and select UI
   require("plugins.dressing"),
@@ -43,7 +41,6 @@ return {
   require("plugins.comment"),
 
   -- Load ts-rainbow for rainbow-colored brackets in Treesitter
-  -- require("plugins.ts-rainbow"),
 
   -- Load symbols-outline.nvim for symbol outline sidebar
   require("plugins.symbols-outline"),

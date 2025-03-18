@@ -6,14 +6,9 @@ return {
     config = function()
       local lspconfig = require("lspconfig")
 
-      -- Configure global diagnostics
-      vim.diagnostic.config({
-        virtual_text = false,
-      })
+      vim.diagnostic.config({ virtual_text = false })
 
-      -- Global on_attach function to set up keybindings
       local on_attach = function(_, bufnr)
-        -- Global keybinding for formatting
         vim.api.nvim_buf_set_keymap(
           bufnr,
           "n",
@@ -23,20 +18,22 @@ return {
         )
       end
 
-      -- List of LSP configurations to load
-      local servers = {
-        "gopls",
-        "clangd",
-        "groovy",
-        "python",
-      }
+      local servers = { "gopls", "clangd", "groovy", "python", "bash" ,"docker" }
 
       for _, server in ipairs(servers) do
         local ok, lsp = pcall(require, "plugins.lsp." .. server)
         if ok then
           lsp.setup(lspconfig, on_attach)
         else
-          vim.notify("Failed to load LSP config for " .. server, vim.log.levels.ERROR)
+          vim.api.nvim_create_autocmd("FileType", {
+            pattern = "*",
+            callback = function(args)
+              local ft = vim.bo[args.buf].filetype
+              if server == ft then
+                vim.notify("LSP configuration for '" .. server .. "' not found!", vim.log.levels.ERROR)
+              end
+            end
+          })
         end
       end
     end
@@ -48,14 +45,8 @@ return {
     event = "LspAttach",
     config = function()
       require("lspsaga").setup({
-        -- Disable winbar (breadcrumb) at the top
-        symbol_in_winbar = {
-          enable = false,
-        },
-        diagnostic = {
-          on_insert = false,   -- Only show diagnostics in normal mode
-          show_source = true,  -- Display the diagnostic source (e.g. Groovy LSP)
-        },
+        symbol_in_winbar = { enable = false },
+        diagnostic = { on_insert = false, show_source = true },
       })
     end,
   },
@@ -70,27 +61,22 @@ return {
       "hrsh7th/cmp-cmdline",
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
-      "rafamadriz/friendly-snippets",  -- Add friendly-snippets here
+      "rafamadriz/friendly-snippets",
     },
     config = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
 
-      -- Load VSCode-style snippets for all supported languages
       require("luasnip.loaders.from_vscode").lazy_load()
 
       cmp.setup({
-        snippet = {
-          expand = function(args)
-            luasnip.lsp_expand(args.body)
-          end,
-        },
+        snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
         mapping = {
           ['<Down>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
           ['<Up>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-          ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Confirm the selection with Enter
-          ['<S-Tab>'] = cmp.mapping.complete(),              -- Trigger completion manually
-          ['<C-e>'] = cmp.mapping.abort(),                   -- Abort completion
+          ['<CR>'] = cmp.mapping.confirm({ select = true }),
+          ['<S-Tab>'] = cmp.mapping.complete(),
+          ['<C-e>'] = cmp.mapping.abort(),
         },
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
@@ -98,9 +84,7 @@ return {
           { name = 'luasnip' },
           { name = 'path', trailing_slash = true },
         }),
-        completion = {
-          autocomplete = false,
-        },
+        completion = { autocomplete = false },
         window = {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
@@ -113,18 +97,9 @@ return {
         },
       })
 
-      cmp.setup.cmdline('/', {
-        sources = {
-          { name = 'buffer' }
-        }
-      })
-
+      cmp.setup.cmdline('/', { sources = { { name = 'buffer' } } })
       cmp.setup.cmdline(':', {
-        sources = cmp.config.sources({
-          { name = 'path' }
-        }, {
-          { name = 'cmdline' }
-        })
+        sources = cmp.config.sources({ { name = 'path' } }, { { name = 'cmdline' } })
       })
     end,
   },
@@ -133,7 +108,7 @@ return {
   {
     "L3MON4D3/LuaSnip",
     config = function()
-      require("luasnip.loaders.from_vscode").lazy_load()  -- Load VSCode-style snippets automatically
+      require("luasnip.loaders.from_vscode").lazy_load()
     end,
   },
 
