@@ -10,8 +10,6 @@ return {
         log_level           = nil,    -- Log level for messages (debug, info, warn, error)
         buttons             = true,                      
 
-
-
         -- Rich presence settings for different activities
         editing_text        = "Editing %s", -- Shows when editing a file
         file_explorer_text  = "Browsing %s", -- Shows when browsing files
