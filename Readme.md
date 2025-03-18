@@ -1,6 +1,7 @@
 # This is my nvim config
 
-
+## Theme
+- catppuccin/nvim
 
 ## Plugins
 
