@@ -32,7 +32,6 @@ return {
   -- Easy text surrounding manipulations
   require("plugins.surround"),
   
-  
   -- Improved input and select UI
   require("plugins.dressing"),
   
