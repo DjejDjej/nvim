@@ -24,7 +24,7 @@ return {
         end
       end
 
-      local servers = { "gopls", "clangd", "pyright", "bashls", "dockerls", "ts_ls" }
+      local servers = { "gopls", "clangd", "pyright", "bashls", "docker", "ts" }
 
       for _, server in ipairs(servers) do
         local ok, lsp = pcall(require, "plugins.lsp." .. server)
@@ -113,11 +113,9 @@ return {
         },
       })
 
-      -- Command-line completion
+      -- Command-line completion for search remains enabled
       cmp.setup.cmdline("/", { sources = { { name = "buffer" } } })
-      cmp.setup.cmdline(":", {
-        sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
-      })
+      -- Command-line completion for ":" is disabled by not setting it up
     end,
   },
 
