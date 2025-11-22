@@ -1,15 +1,23 @@
 
 return {
-  -- LSP Config
+
+  ---------------------------------------------------------------------------
+  -- Core LSP
+  ---------------------------------------------------------------------------
   {
     "neovim/nvim-lspconfig",
     config = function()
-      local lspconfig = require("lspconfig")
+      -----------------------------------------------------------------------
+      -- Basic diagnostic settings
+      -----------------------------------------------------------------------
+      vim.diagnostic.config({
+        virtual_text = false,
+      })
 
-      -- Disable virtual text (optional: reduces clutter)
-      vim.diagnostic.config({ virtual_text = false })
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       local on_attach = function(client, bufnr)
+        -- Formatting key
         vim.api.nvim_buf_set_keymap(
           bufnr,
           "n",
@@ -18,34 +26,46 @@ return {
           { noremap = true, silent = true }
         )
 
-        -- Disable inlay hints if they cause weird characters
+        -- Disable inlay hints if present
         if client.server_capabilities.inlayHintProvider then
           vim.lsp.inlay_hint(bufnr, false)
         end
       end
 
-      local servers = { "gopls", "clangd", "pyright", "bashls", "docker", "ts" }
+      -----------------------------------------------------------------------
+      -- LSP Servers
+      -----------------------------------------------------------------------
+      local servers = { "clangd" }
 
-      for _, server in ipairs(servers) do
-        local ok, lsp = pcall(require, "plugins.lsp." .. server)
-        if ok then
-          lsp.setup(lspconfig, on_attach)
+      for _, name in ipairs(servers) do
+        local ok, mod = pcall(require, "plugins.lsp." .. name)
+        if not ok then
+          vim.notify("Missing LSP config for: " .. name, vim.log.levels.ERROR)
         else
+          local cfg = mod.setup(on_attach, capabilities)
+
+          -- Convert filetypes table to comma-separated string for autocmd
+          local ft_pattern = table.concat(cfg.filetypes, ",")
+
           vim.api.nvim_create_autocmd("FileType", {
-            pattern = "*",
+            pattern = ft_pattern,
             callback = function(args)
-              local ft = vim.bo[args.buf].filetype
-              if server == ft then
-                vim.notify("LSP configuration for '" .. server .. "' not found!", vim.log.levels.ERROR)
+              local bufnr = args.buf
+              -- Prevent duplicate clients
+              local active = vim.lsp.get_clients({ bufnr = bufnr, name = cfg.name })
+              if #active == 0 then
+                vim.lsp.start(cfg)
               end
-            end
+            end,
           })
         end
       end
     end
   },
 
-  -- Enhanced LSP UI
+  ---------------------------------------------------------------------------
+  -- LSP UI: Lspsaga
+  ---------------------------------------------------------------------------
   {
     "glepnir/lspsaga.nvim",
     event = "LspAttach",
@@ -53,14 +73,14 @@ return {
       require("lspsaga").setup({
         symbol_in_winbar = { enable = false },
         diagnostic = { on_insert = false, show_source = true },
-        ui = {
-          border = "rounded",
-        },
+        ui = { border = "rounded" },
       })
     end,
   },
 
-  -- Autocompletion Plugins
+  ---------------------------------------------------------------------------
+  -- Autocompletion: nvim-cmp
+  ---------------------------------------------------------------------------
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
@@ -85,11 +105,11 @@ return {
           end,
         },
         mapping = cmp.mapping.preset.insert({
-          ['<Down>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-          ['<Up>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+          ["<C-Space>"] = cmp.mapping.complete(),  -- Manual trigger
           ['<CR>'] = cmp.mapping.confirm({ select = true }),
-          ['<S-Tab>'] = cmp.mapping.complete(),
           ['<C-e>'] = cmp.mapping.abort(),
+          ['<Up>'] = cmp.mapping.select_prev_item(),
+          ['<Down>'] = cmp.mapping.select_next_item(),
         }),
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
@@ -97,29 +117,31 @@ return {
           { name = "luasnip" },
           { name = "path", trailing_slash = true },
         }),
-        completion = { autocomplete = { require("cmp.types").cmp.TriggerEvent.TextChanged } },
+        completion = {
+          autocomplete = false,  -- Disable automatic popup
+        },
         window = {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
         },
         formatting = {
           format = function(_, vim_item)
-            -- **Fix: Remove Weird Characters from Completion**
-            vim_item.abbr = vim_item.abbr:gsub("💡%d+", "") -- Remove lightbulb-style hints
-            vim_item.abbr = vim_item.abbr:gsub("%$%d+", "") -- Remove snippet placeholders
-            vim_item.abbr = string.sub(vim_item.abbr, 1, 40) -- Trim long suggestions
+            vim_item.abbr = vim_item.abbr:gsub("💡%d+", "")
+            vim_item.abbr = vim_item.abbr:gsub("%$%d+", "")
+            vim_item.abbr = string.sub(vim_item.abbr, 1, 40)
             return vim_item
           end,
         },
       })
 
-      -- Command-line completion for search remains enabled
+      -- Buffer search completion
       cmp.setup.cmdline("/", { sources = { { name = "buffer" } } })
-      -- Command-line completion for ":" is disabled by not setting it up
     end,
   },
 
+  ---------------------------------------------------------------------------
   -- Snippet Engine
+  ---------------------------------------------------------------------------
   {
     "L3MON4D3/LuaSnip",
     config = function()
@@ -127,8 +149,8 @@ return {
     end,
   },
 
-  -- Install cmp-nvim-lsp for LSP autocompletion
-  {
-    "hrsh7th/cmp-nvim-lsp",
-  },
+  ---------------------------------------------------------------------------
+  -- Autocompletion capability bridge
+  ---------------------------------------------------------------------------
+  { "hrsh7th/cmp-nvim-lsp" },
 }

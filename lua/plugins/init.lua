@@ -52,4 +52,7 @@ return {
   
   -- Harpoon for quick navigation
   require("plugins.harpoon"),
+  
+  require("plugins.toggleterm"),
+  
 }

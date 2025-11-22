@@ -56,3 +56,7 @@ vim.api.nvim_set_keymap("n", "<leader>l", "<cmd>lua vim.lsp.buf.format({ async =
 
 -- Oil file explorer shortcut
 vim.api.nvim_set_keymap("n", "<Leader>e", ":Oil<CR>", { noremap = true, silent = true, desc = "Open Oil file explorer" })
+
+
+
+vim.api.nvim_set_keymap("n", "<leader>t", "<cmd>ToggleTerm<CR>", { noremap = true, silent = true, desc = "Toggle bottom terminal" })
