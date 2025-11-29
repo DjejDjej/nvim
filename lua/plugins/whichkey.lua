@@ -14,6 +14,7 @@ return {
         registers = false,    -- Disable registers icons
       },
       show_help = false,      -- Disable help message to avoid extra icons
+
     })
   end,
 }

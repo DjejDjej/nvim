@@ -1,4 +1,5 @@
 
+
 return {
 
   ---------------------------------------------------------------------------
@@ -7,34 +8,23 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      -----------------------------------------------------------------------
-      -- Basic diagnostic settings
-      -----------------------------------------------------------------------
-      vim.diagnostic.config({
-        virtual_text = false,
-      })
+      -- Diagnostics
+      vim.diagnostic.config({ virtual_text = false })
 
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       local on_attach = function(client, bufnr)
-        -- Formatting key
-        vim.api.nvim_buf_set_keymap(
-          bufnr,
-          "n",
-          "<leader>l",
-          "<cmd>lua vim.lsp.buf.format({ async = true })<CR>",
-          { noremap = true, silent = true }
-        )
+        
 
-        -- Disable inlay hints if present
+        -- Safely disable inlay hints if available
         if client.server_capabilities.inlayHintProvider then
-          vim.lsp.inlay_hint(bufnr, false)
+          if type(vim.lsp.inlay_hint) == "function" then
+            vim.lsp.inlay_hint(bufnr, false)
+          end
         end
       end
 
-      -----------------------------------------------------------------------
-      -- LSP Servers
-      -----------------------------------------------------------------------
+      -- LSP servers
       local servers = { "clangd" }
 
       for _, name in ipairs(servers) do
@@ -44,14 +34,11 @@ return {
         else
           local cfg = mod.setup(on_attach, capabilities)
 
-          -- Convert filetypes table to comma-separated string for autocmd
-          local ft_pattern = table.concat(cfg.filetypes, ",")
-
+          -- Attach LSP on buffer open
           vim.api.nvim_create_autocmd("FileType", {
-            pattern = ft_pattern,
+            pattern = cfg.filetypes,
             callback = function(args)
               local bufnr = args.buf
-              -- Prevent duplicate clients
               local active = vim.lsp.get_clients({ bufnr = bufnr, name = cfg.name })
               if #active == 0 then
                 vim.lsp.start(cfg)
@@ -95,21 +82,18 @@ return {
     config = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
-
       require("luasnip.loaders.from_vscode").lazy_load()
 
       cmp.setup({
         snippet = {
-          expand = function(args)
-            luasnip.lsp_expand(args.body)
-          end,
+          expand = function(args) luasnip.lsp_expand(args.body) end,
         },
         mapping = cmp.mapping.preset.insert({
-          ["<C-Space>"] = cmp.mapping.complete(),  -- Manual trigger
-          ['<CR>'] = cmp.mapping.confirm({ select = true }),
-          ['<C-e>'] = cmp.mapping.abort(),
-          ['<Up>'] = cmp.mapping.select_prev_item(),
-          ['<Down>'] = cmp.mapping.select_next_item(),
+          ["<C-Space>"] = cmp.mapping.complete(),  
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+          ["<C-e>"] = cmp.mapping.abort(),
+          ["<Up>"] = cmp.mapping.select_prev_item(),
+          ["<Down>"] = cmp.mapping.select_next_item(),
         }),
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
@@ -117,9 +101,7 @@ return {
           { name = "luasnip" },
           { name = "path", trailing_slash = true },
         }),
-        completion = {
-          autocomplete = false,  -- Disable automatic popup
-        },
+        completion = { autocomplete = false },
         window = {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
@@ -134,7 +116,6 @@ return {
         },
       })
 
-      -- Buffer search completion
       cmp.setup.cmdline("/", { sources = { { name = "buffer" } } })
     end,
   },

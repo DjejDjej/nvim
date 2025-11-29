@@ -45,7 +45,9 @@ vim.api.nvim_set_keymap("n", "<leader>sS", ":SymbolsOutline<CR>", { noremap = tr
 
 -- Harpoon mappings
 for i = 1, 9 do
-  vim.api.nvim_set_keymap("n", "<C-" .. i .. ">", ":lua require('harpoon.ui').nav_file(" .. i .. ")<CR>", { noremap = true, silent = true, desc = "Navigate to Harpoon file " .. i })
+  vim.keymap.set("n", "<leader>" .. i, function()
+    require("harpoon.ui").nav_file(i)
+  end, { desc = "which_key_ignore", silent = true })
 end
 vim.api.nvim_set_keymap("n", "<leader>ha", ":lua require('harpoon.mark').add_file()<CR>", { noremap = true, silent = true, desc = "Add file to Harpoon" })
 vim.api.nvim_set_keymap("n", "<leader>hm", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", { noremap = true, silent = true, desc = "Toggle Harpoon menu" })
@@ -56,7 +58,35 @@ vim.api.nvim_set_keymap("n", "<leader>l", "<cmd>lua vim.lsp.buf.format({ async =
 
 -- Oil file explorer shortcut
 vim.api.nvim_set_keymap("n", "<Leader>e", ":Oil<CR>", { noremap = true, silent = true, desc = "Open Oil file explorer" })
-
-
+-- Toggle term 
 
 vim.api.nvim_set_keymap("n", "<leader>t", "<cmd>ToggleTerm<CR>", { noremap = true, silent = true, desc = "Toggle bottom terminal" })
+
+-- LSP navigace a akce pod 'g'
+
+-- Go to definition
+vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap=true, silent=true, desc="Goto definition" })
+
+-- Go to declaration
+vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap=true, silent=true, desc="Goto declaration" })
+
+-- Go to implementation
+vim.api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { noremap=true, silent=true, desc="Goto implementation" })
+
+-- Go to type definition
+vim.api.nvim_set_keymap("n", "gT", "<cmd>lua vim.lsp.buf.type_definition()<CR>", { noremap=true, silent=true, desc="Goto type definition" })
+
+-- Find references (using Telescope for nicer UI)
+vim.api.nvim_set_keymap("n", "gr", "<cmd>Telescope lsp_references<CR>", { noremap=true, silent=true, desc="Find references" })
+
+-- Hover info
+vim.api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { noremap=true, silent=true, desc="Hover info" })
+
+-- Signature help (while typing)
+vim.api.nvim_set_keymap("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", { noremap=true, silent=true, desc="Signature help" })
+
+-- Rename symbol
+vim.api.nvim_set_keymap("n", "gR", "<cmd>lua vim.lsp.buf.rename()<CR>", { noremap=true, silent=true, desc="Rename symbol" })
+
+-- Code actions
+vim.api.nvim_set_keymap("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", { noremap=true, silent=true, desc="Code action" })

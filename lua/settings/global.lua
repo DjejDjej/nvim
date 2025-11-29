@@ -12,7 +12,7 @@ vim.opt.relativenumber = true           -- Relative line numbers
 vim.opt.cmdheight = 0                   -- Minimal command line height
 vim.opt.mouse = ''                      -- Disable mouse
 vim.o.showtabline = 1                   -- Show tabline if tabs exist
-
+vim.o.tildeop = true 
 -- Backup, swap, and undo settings
 vim.opt.undofile = true                -- Enable persistent undo
 vim.opt.backup = false                 -- Disable backups
@@ -51,16 +51,29 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- User command: :Rp to perform a global find/replace
-vim.api.nvim_create_user_command('Rp', function(opts)
-  local find = opts.args:match("^(%S+)")
-  local replace = opts.args:match("%s+(.+)$")
-  if find and replace then
-    vim.cmd(":%s/" .. vim.fn.escape(find, "/") .. "/" .. vim.fn.escape(replace, "/") .. "/g")
-  else
-    print("Usage: :Rp <string1> <string2>")
-  end
-end, { nargs = 1, complete = 'custom,v:lua.custom_complete' })
+
+function toggle_ch_file()
+    local file = vim.fn.expand("%:t")  -- current filename
+    local name = vim.fn.expand("%:r")  -- filename without extension
+    local ext = vim.fn.expand("%:e")   -- current extension
+
+    local target = nil
+    if ext == "c" then
+        target = name .. ".h"
+    elseif ext == "h" then
+        target = name .. ".c"
+    else
+        print("Not a .c or .h file")
+        return
+    end
+
+    -- Open the target file (create if not exists)
+    vim.cmd("edit " .. target)
+end
+
+
+-- Map <leader>d to toggle .c/.h
+vim.api.nvim_set_keymap("n","<leader>d",":lua toggle_ch_file()<CR>",{ noremap=true, silent=true, desc="Toggle .c/.h file" })
 
 -- Custom highlight groups for Harpoon and TabLineFill
 vim.cmd('highlight! HarpoonInactive guibg=NONE guifg=#63698c')

@@ -6,7 +6,7 @@ return {
   require("plugins.oil"),
   
   -- Language Server Protocol (LSP) configuration
-  require("plugins.lsp"),
+   require("plugins.lsp"),
   
   -- Syntax highlighting and parsing
   require("plugins.treesitter"),

@@ -8,7 +8,6 @@ return {
 
       toggleterm.setup({
         size = 10,
-        open_mapping = [[<C-\>]],
         start_in_insert = true,
         direction = "horizontal",
         close_on_exit = true,
