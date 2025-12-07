@@ -75,6 +75,44 @@ end
 -- Map <leader>d to toggle .c/.h
 vim.api.nvim_set_keymap("n","<leader>d",":lua toggle_ch_file()<CR>",{ noremap=true, silent=true, desc="Toggle .c/.h file" })
 
+vim.keymap.set("x", "<leader>m", function()
+  -- get selected text
+  local _, srow, scol = unpack(vim.fn.getpos("'<"))
+  local _, erow, ecol = unpack(vim.fn.getpos("'>"))
+
+  local lines = vim.fn.getline(srow, erow)
+  if #lines == 0 then return end
+
+  lines[#lines] = string.sub(lines[#lines], 1, ecol)
+  lines[1]      = string.sub(lines[1], scol)
+
+  local word = vim.fn.trim(table.concat(lines, " "))
+  if word == "" then return end
+
+  -- create a new full window buffer
+  vim.cmd("enew")
+
+  -- open terminal and run man <word>
+  vim.cmd("terminal man " .. word)
+
+  -- auto-close terminal buffer once man exits
+  local bufnr = vim.api.nvim_get_current_buf()
+  vim.api.nvim_create_autocmd("TermClose", {
+    buffer = bufnr,
+    once = true,
+    callback = function()
+      vim.schedule(function()
+        if vim.api.nvim_buf_is_valid(bufnr) then
+          vim.api.nvim_buf_delete(bufnr, { force = true })
+        end
+      end)
+    end,
+  })
+
+  vim.cmd("startinsert")
+end, { silent = true })
+
+
 -- Custom highlight groups for Harpoon and TabLineFill
 vim.cmd('highlight! HarpoonInactive guibg=NONE guifg=#63698c')
 vim.cmd('highlight! HarpoonActive guibg=NONE guifg=white')
